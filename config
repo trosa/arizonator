@@ -1,2 +1,7 @@
-[OpenWeatherMap]
-api_key = 70954e26422d1ceaf1df7fcecf9a30b6
+[WeatherBit]
+api_url = http://api.weatherbit.io/v2.0/forecast/daily
+api_key = b4f28819b2704f1b8fed8f6fad3904ac
+
+[Coordinates]
+lat = -30.027680
+lon = -51.228640

@@ -1,15 +1,28 @@
 from flask import Flask
 from configparser import ConfigParser
+import requests
 
-config = ConfigParser()
-config.read('config')
+def get_querystring(config):
+    api_key = config['WeatherBit']['api_key']
+    lat = config['Coordinates']['lat']
+    lon = config['Coordinates']['lon']
+    querystring = {}
+    querystring["key"] = api_key
+    querystring["lat"] = lat
+    querystring["lon"] = lon
+    return querystring
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    api_key = config['OpenWeatherMap']['api_key']
-    return "TERÇA!!!"
+    config = ConfigParser()
+    config.read('config')
+    api_url = config['WeatherBit']['api_url']
+    querystring = get_querystring(config)
+
+    response = requests.request("GET", api_url, params=querystring)
+    return response.json()
 
 if __name__ == "__main__":
     app.run()
