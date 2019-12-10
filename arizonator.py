@@ -1,6 +1,7 @@
 from flask import Flask
 from configparser import ConfigParser
 import requests
+from datetime import datetime
 
 def get_querystring(config):
     api_key = config['WeatherBit']['api_key']
@@ -22,7 +23,19 @@ def index():
     querystring = get_querystring(config)
 
     response = requests.request("GET", api_url, params=querystring)
-    return response.json()
+
+    weatherdata = response.json()["data"][:6]
+
+    rains = {}
+
+    for date in weatherdata:
+        year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
+        weekday = datetime(year, month, day).strftime("%A")
+        if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+            rains[weekday] = date["precip"]
+            print(rains[weekday])
+
+    return max(rains, key=rains.get)
 
 if __name__ == "__main__":
     app.run()
