@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from flask_frozen import Freezer
 from configparser import ConfigParser
 import requests
 from datetime import datetime
@@ -15,8 +14,6 @@ def get_querystring(config):
     return querystring
 
 app = Flask(__name__)
-app.config.from_pyfile('settings.py')
-freezer = Freezer(app)
 
 @app.route("/")
 def index():
@@ -36,13 +33,15 @@ def index():
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["precip"]
-            print(rains[weekday])
+
+    arizonaday = config['Defaults']['arizona_day']
 
     mostrainyday = max(rains, key=rains.get)
-    if rains[mostrainyday] == 0:
-        return "Tuesday!", 200
-    else:
-        return render_template('index.html', arizonaday=mostrainyday), 200
+
+    if rains[mostrainyday] != 0:
+        arizonaday = mostrainyday
+
+    return render_template('index.html', arizonaday=mostrainyday), 200
 
 if __name__ == "__main__":
     app.run()
