@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, render_template
+from flask_frozen import Freezer
 from configparser import ConfigParser
 import requests
 from datetime import datetime
@@ -14,6 +15,8 @@ def get_querystring(config):
     return querystring
 
 app = Flask(__name__)
+app.config.from_pyfile('settings.py')
+freezer = Freezer(app)
 
 @app.route("/")
 def index():
@@ -35,7 +38,9 @@ def index():
             rains[weekday] = date["precip"]
             print(rains[weekday])
 
-    return max(rains, key=rains.get)
+    arizonaday = max(rains, key=rains.get)
+
+    return render_template('index.html', arizonaday=arizonaday), 200
 
 if __name__ == "__main__":
     app.run()
