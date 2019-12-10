@@ -38,9 +38,11 @@ def index():
             rains[weekday] = date["precip"]
             print(rains[weekday])
 
-    arizonaday = max(rains, key=rains.get)
-
-    return render_template('index.html', arizonaday=arizonaday), 200
+    mostrainyday = max(rains, key=rains.get)
+    if rains[mostrainyday] == 0:
+        return "Tuesday!", 200
+    else:
+        return render_template('index.html', arizonaday=mostrainyday), 200
 
 if __name__ == "__main__":
     app.run()
