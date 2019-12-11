@@ -67,3 +67,13 @@ h1 {
         margin-right: 10px;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333;
+        color: #fff;
+    }
+    .card {
+        background-color: #000;
+    }
+}
