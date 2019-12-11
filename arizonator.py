@@ -42,12 +42,14 @@ def index():
         weatherdata = response.json()["data"][startdayoffset:daystopick]
 
     rains = {}
+    icons = {}
 
     for date in weatherdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["precip"]
+            icons[weekday] = "https://weatherbit.io/static/img/icons/" + date["weather"]["icon"] + ".png"
 
     arizonaday = config['Defaults']['arizona_day']
     if datetime.today().weekday() > 1:
@@ -58,7 +60,7 @@ def index():
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
 
-    return render_template('index.html', arizonaday=mostrainyday, rains=rains), 200
+    return render_template('index.html', arizonaday=mostrainyday, rains=rains, icons=icons), 200
 
 if __name__ == "__main__":
     app.run()
