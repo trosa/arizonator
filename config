@@ -8,3 +8,4 @@ lon = -51.228640
 
 [Defaults]
 arizona_day = Tuesday
+timezone = America/Sao_Paulo
