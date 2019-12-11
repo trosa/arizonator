@@ -24,7 +24,13 @@ def index():
 
     response = requests.request("GET", api_url, params=querystring)
 
-    weatherdata = response.json()["data"][:6]
+    todaysweekday = datetime.today().weekday()
+
+    if todaysweekday > 4:
+        weatherdata = response.json()["data"][:6]
+    else:
+        daystopick = 6 - todaysweekday
+        weatherdata = response.json()["data"][:daystopick]
 
     rains = {}
 
@@ -36,6 +42,8 @@ def index():
             print(weekday, rains[weekday])
 
     arizonaday = config['Defaults']['arizona_day']
+    if datetime.today().weekday() > 1:
+        arizonaday = datetime.today().strftime("%A")
 
     mostrainyday = max(rains, key=rains.get)
 
