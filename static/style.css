@@ -4,10 +4,11 @@ body {
     margin: 0;
     color: #333;
     padding-top: 20px;
+    font-size: 16px;
 }
 
 div.arizonaday {
-    font-size: 100px;
+    font-size: 6.25em;
 }
 
 h1 {
@@ -25,7 +26,8 @@ h1 {
     background-color: white;
     padding: 20px;
     margin: 4px;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
 
     width: 120px;
     height: 130px;
@@ -35,4 +37,33 @@ h1 {
     display: flex;
     flex-flow: row wrap;
     margin: 40px 0;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    div.arizonaday {
+        font-size: 3em;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px 20px;
+        width: 100%;
+        height: auto;
+    }
+
+    .card img {
+        width: 30px; 
+        margin-right: 10px;
+    }
 }
