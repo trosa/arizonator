@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 from configparser import ConfigParser
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
+import pytz
 
 def get_querystring(config):
     api_key = config['WeatherBit']['api_key']
@@ -25,12 +26,20 @@ def index():
     response = requests.request("GET", api_url, params=querystring)
 
     todaysweekday = datetime.today().weekday()
+    startdayoffset = 0
+
+    naivetimenow = datetime.now()
+    desiredtimezone = pytz.timezone(config['Defaults']['timezone'])
+    awaretimenow = desiredtimezone.localize(naivetimenow)
+    if awaretimenow.hour > 12 and awaretimenow.minute > 30 and todaysweekday < 5:
+        todaysweekday += 1
+        startdayoffset = 1
 
     if todaysweekday > 4:
         weatherdata = response.json()["data"][:6]
     else:
         daystopick = 6 - todaysweekday
-        weatherdata = response.json()["data"][:daystopick]
+        weatherdata = response.json()["data"][startdayoffset:daystopick]
 
     rains = {}
     icons = {}
