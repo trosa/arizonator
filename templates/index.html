@@ -20,7 +20,7 @@
     <div class="card-grid">
         {% for day in rains.keys() %}
         <div class="card">
-            <div>{{ day }} {{ rains[day] }}</div>
+            <div>{{ day }} {{ rains[day] }}%</div>
             <img src={{icons[day]}} />
         </div>
         {% endfor %}
@@ -30,7 +30,7 @@
 <div>
     Next week's day:
     {{ nextarizonaday }}
-    (precip {{ nextweeksrains[nextarizonaday] }})
+    (prob. {{ nextweeksrains[nextarizonaday] }}%)
 </div>
 
 {% endblock %}

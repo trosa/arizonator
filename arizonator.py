@@ -52,14 +52,14 @@ def index():
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
-            rains[weekday] = date["precip"]
+            rains[weekday] = date["pop"]
             icons[weekday] = "https://weatherbit.io/static/img/icons/" + date["weather"]["icon"] + ".png"
 
     for date in nextweeksdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
-            nextweeksrains[weekday] = date["precip"]
+            nextweeksrains[weekday] = date["pop"]
 
     arizonaday = config['Defaults']['arizona_day']
     if datetime.today().weekday() > 1:
