@@ -11,6 +11,11 @@
 <br/>
 <div class="arizonaday"><mark>{{ arizonaday }}</mark></div>
 
+{% if arizonaday == "Friday" %}
+    <br/>
+    <div class="warning">(but don't forget today is <b>Pastel</b> day at Tiozinho!)</div> 
+{% endif %}
+
 <div class="flex-column-center">
     <div class="card-grid">
         {% for day in rains.keys() %}

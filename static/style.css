@@ -11,6 +11,10 @@ div.arizonaday {
     font-size: 6.25em;
 }
 
+div.warning {
+    font-color: gray;
+}
+
 h1 {
     font-weight: 400;
 }
