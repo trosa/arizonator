@@ -33,6 +33,7 @@ def index():
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["precip"]
+            print(weekday, rains[weekday])
 
     arizonaday = config['Defaults']['arizona_day']
 
@@ -41,7 +42,7 @@ def index():
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
 
-    return render_template('index.html', arizonaday=mostrainyday), 200
+    return render_template('index.html', arizonaday=mostrainyday, rains=rains), 200
 
 if __name__ == "__main__":
     app.run()

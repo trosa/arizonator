@@ -1,3 +1,15 @@
 {% block content %}
-<h1>{{ arizonaday }}</h1>
+<h1>The best day to go to Arizona is <b>{{ arizonaday }}</b></h1>
+<table>
+    <tr>
+        <th>Day</th>
+        <th>Precipitation</th>
+    </tr>
+    {% for day in rains.keys() %}
+    <tr>
+        <td>{{ day }}</td>
+        <td>{{ rains[day] }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
