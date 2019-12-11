@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     config = ConfigParser()
-    config.read('config')
+    config.read('./config')
     api_url = config['WeatherBit']['api_url']
     querystring = get_querystring(config)
 
