@@ -2,6 +2,9 @@ from flask import Flask, render_template
 from configparser import ConfigParser
 import requests
 from datetime import datetime
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 def get_querystring(config):
     api_key = config['WeatherBit']['api_key']
@@ -33,13 +36,17 @@ def index():
         weatherdata = response.json()["data"][:daystopick]
 
     rains = {}
+    icons = {}
 
     for date in weatherdata:
+        pp.pprint(date)
+        print("\n")
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["precip"]
-            print(weekday, rains[weekday])
+            icons[weekday] = "https://weatherbit.io/static/img/icons/" + date["weather"]["icon"] + ".png"
+            # print(weekday, rains[weekday])
 
     arizonaday = config['Defaults']['arizona_day']
     if datetime.today().weekday() > 1:
@@ -50,7 +57,7 @@ def index():
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
 
-    return render_template('index.html', arizonaday=mostrainyday, rains=rains), 200
+    return render_template('index.html', arizonaday=mostrainyday, rains=rains, icons=icons), 200
 
 if __name__ == "__main__":
     app.run()
