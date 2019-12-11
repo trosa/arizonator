@@ -1,11 +1,16 @@
 <!doctype html>
 
+<link rel="stylesheet" type="text/css" href="static/style.css">
+
 <title>{% block title %}{{ arizonaday}} is Arizona day!{% endblock %}</title>
 
 {% block content %}
 <img src="../static/logo.png"/>
-<h1>The best day to go to Arizona this week is <b>{{ arizonaday }}</b></h1>
-<table>
+<h1>The best day to go to Arizona this week is</h1>
+<br/>
+<div class="arizonaday"><mark>{{ arizonaday }}</mark></div>
+<br/><br/>
+<table class="center">
     <tr>
         <th>Day</th>
         <th>Precipitation</th>
