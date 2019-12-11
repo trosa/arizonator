@@ -1,25 +1,24 @@
 <!doctype html>
 
 <link rel="stylesheet" type="text/css" href="static/style.css">
-
 <title>{% block title %}{{ arizonaday}} is Arizona day!{% endblock %}</title>
 
 {% block content %}
+
 <img src="../static/logo.png"/>
 <h1>The best day to go to Arizona this week is</h1>
 <br/>
 <div class="arizonaday"><mark>{{ arizonaday }}</mark></div>
-<br/><br/>
-<table class="center">
-    <tr>
-        <th>Day</th>
-        <th>Precipitation</th>
-    </tr>
-    {% for day in rains.keys() %}
-    <tr>
-        <td>{{ day }}</td>
-        <td>{{ rains[day] }}</td>
-    </tr>
-    {% endfor %}
-</table>
+
+<div class="flex-column-center">
+    <div class="card-grid">
+        {% for day in rains.keys() %}
+        <div class="card">
+            <div>{{ day }} {{ rains[day] }}</div>
+            <img src={{icons[day]}} />
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
