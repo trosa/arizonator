@@ -24,6 +24,7 @@ def index():
     querystring = get_querystring(config)
 
     response = requests.request("GET", api_url, params=querystring)
+    weatherdata = response.json()["data"]
 
     todaysweekday = datetime.today().weekday()
     startdayoffset = 0
@@ -36,31 +37,44 @@ def index():
         startdayoffset = 1
 
     if todaysweekday > 4:
-        weatherdata = response.json()["data"][:6]
+        thisweeksdata = weatherdata[:6]
     else:
         daystopick = 6 - todaysweekday
-        weatherdata = response.json()["data"][startdayoffset:daystopick]
+        thisweeksdata = weatherdata[startdayoffset:daystopick]
+
+    nextweeksdata = weatherdata[(7-todaysweekday):(11-todaysweekday)]
 
     rains = {}
     icons = {}
+    nextweeksrains = {}
 
-    for date in weatherdata:
+    for date in thisweeksdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["precip"]
             icons[weekday] = "https://weatherbit.io/static/img/icons/" + date["weather"]["icon"] + ".png"
 
+    for date in nextweeksdata:
+        year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
+        weekday = datetime(year, month, day).strftime("%A")
+        if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+            nextweeksrains[weekday] = date["precip"]
+
     arizonaday = config['Defaults']['arizona_day']
     if datetime.today().weekday() > 1:
         arizonaday = datetime.today().strftime("%A")
 
     mostrainyday = max(rains, key=rains.get)
-
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
 
-    return render_template('index.html', arizonaday=mostrainyday, rains=rains, icons=icons), 200
+    nextarizonaday = config['Defaults']['arizona_day']
+    nextweeksmostrainyday = max(nextweeksrains, key=nextweeksrains.get)
+    if nextweeksrains[nextweeksmostrainyday] != 0:
+        nextarizonaday = nextweeksmostrainyday
+
+    return render_template('index.html', arizonaday=arizonaday, rains=rains, icons=icons, nextarizonaday=nextarizonaday, nextweeksrains=nextweeksrains), 200
 
 if __name__ == "__main__":
     app.run()
