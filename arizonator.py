@@ -23,6 +23,7 @@ def index():
     api_url = config['WeatherBit']['api_url']
     icons_url = config['WeatherBit']['icons_url']
     querystring = get_querystring(config)
+    weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
     response = requests.request("GET", api_url, params=querystring)
     weatherdata = response.json()["data"]
@@ -33,7 +34,7 @@ def index():
     naivetimenow = datetime.now()
     desiredtimezone = pytz.timezone(config['Defaults']['timezone'])
     awaretimenow = desiredtimezone.localize(naivetimenow)
-    if awaretimenow.hour > 13 and todaysweekday < 5:
+    if awaretimenow.hour > 12 and todaysweekday < 5:
         todaysweekday += 1
         startdayoffset = 1
 
@@ -52,14 +53,14 @@ def index():
     for date in thisweeksdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
-        if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+        if weekday in weekdays:
             rains[weekday] = date["pop"]
             icons[weekday] = icons_url + date["weather"]["icon"] + ".png"
 
     for date in nextweeksdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])
         weekday = datetime(year, month, day).strftime("%A")
-        if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+        if weekday in weekdays:
             nextweeksrains[weekday] = date["pop"]
 
     arizonaday = config['Defaults']['arizona_day']
@@ -69,6 +70,8 @@ def index():
     mostrainyday = max(rains, key=rains.get)
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
+    if weekdays.index(arizonaday) <= todaysweekday:
+        arizonaday = weekdays[todaysweekday]
 
     nextarizonaday = config['Defaults']['arizona_day']
     nextweeksmostrainyday = max(nextweeksrains, key=nextweeksrains.get)
