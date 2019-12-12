@@ -21,6 +21,7 @@ def index():
     config = ConfigParser()
     config.read('./config')
     api_url = config['WeatherBit']['api_url']
+    icons_url = config['WeatherBit']['icons_url']
     querystring = get_querystring(config)
 
     response = requests.request("GET", api_url, params=querystring)
@@ -53,7 +54,7 @@ def index():
         weekday = datetime(year, month, day).strftime("%A")
         if weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
             rains[weekday] = date["pop"]
-            icons[weekday] = "https://weatherbit.io/static/img/icons/" + date["weather"]["icon"] + ".png"
+            icons[weekday] = icons_url + date["weather"]["icon"] + ".png"
 
     for date in nextweeksdata:
         year, month, day = tuple([int(d) for d in date["valid_date"].split("-")])

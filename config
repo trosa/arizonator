@@ -1,6 +1,7 @@
 [WeatherBit]
 api_url = http://api.weatherbit.io/v2.0/forecast/daily
 api_key = b4f28819b2704f1b8fed8f6fad3904ac
+icons_url = https://weatherbit.io/static/img/icons/
 
 [Coordinates]
 lat = -30.055386
