@@ -35,7 +35,12 @@
 
 <div>
     <br/>
-    <img src="static/churras.gif" alt="Partiu Churras?" width="200"/>
+    {% if arizonaday != "Friday" %}
+        <img src="static/churras.gif" alt="Partiu Churras?" width="200"/>
+    {% else %}
+        <img src="static/pastel.jpeg" alt="Partiu Pastel?" width="200"/>
+    {% endif %}
+
 </div>
 
 {% endblock %}
