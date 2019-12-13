@@ -34,7 +34,7 @@ def index():
     naivetimenow = datetime.now()
     desiredtimezone = pytz.timezone(config['Defaults']['timezone'])
     awaretimenow = desiredtimezone.localize(naivetimenow)
-    if awaretimenow.hour > 12 and todaysweekday < 5:
+    if awaretimenow.hour > 12 and todaysweekday < 4:
         todaysweekday += 1
         startdayoffset = 1
 
