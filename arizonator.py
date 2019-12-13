@@ -71,7 +71,8 @@ def index():
     if rains[mostrainyday] != 0:
         arizonaday = mostrainyday
     if weekdays.index(arizonaday) <= todaysweekday:
-        arizonaday = weekdays[todaysweekday]
+        if todaysweekday < 5:
+            arizonaday = weekdays[todaysweekday]
 
     nextarizonaday = config['Defaults']['arizona_day']
     nextweeksmostrainyday = max(nextweeksrains, key=nextweeksrains.get)
