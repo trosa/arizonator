@@ -28,12 +28,13 @@ def index():
     response = requests.request("GET", api_url, params=querystring)
     weatherdata = response.json()["data"]
 
-    todaysweekday = datetime.today().weekday()
+    todaysweekday = max(0,datetime.today().weekday() - 1)
     startdayoffset = 0
 
     naivetimenow = datetime.now()
     desiredtimezone = pytz.timezone(config['Defaults']['timezone'])
-    awaretimenow = desiredtimezone.localize(naivetimenow)
+    localizedtimenow = desiredtimezone.localize(naivetimenow)
+    awaretimenow = desiredtimezone.normalize(localizedtimenow)
     if awaretimenow.hour > 12 and todaysweekday < 4:
         todaysweekday += 1
         startdayoffset = 1
