@@ -28,7 +28,7 @@ def index():
     response = requests.request("GET", api_url, params=querystring)
     weatherdata = response.json()["data"]
 
-    todaysweekday = datetime.today().weekday()
+    todaysweekday = datetime.today().isoweekday()-1
     startdayoffset = 0
 
     naivetimenow = datetime.now()
