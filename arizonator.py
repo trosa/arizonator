@@ -64,12 +64,13 @@ def index():
             nextweeksrains[weekday] = date["pop"]
 
     arizonaday = config['Defaults']['arizona_day']
-    if datetime.today().weekday() > 1:
+    if todaysweekday > 1:
         arizonaday = datetime.today().strftime("%A")
 
-    mostrainyday = max(rains, key=rains.get)
-    if rains[mostrainyday] != 0:
-        arizonaday = mostrainyday
+    if rains:
+        mostrainyday = max(rains, key=rains.get)
+        if rains[mostrainyday] != 0:
+            arizonaday = mostrainyday
     if weekdays.index(arizonaday) <= todaysweekday:
         if todaysweekday < 5:
             arizonaday = weekdays[todaysweekday]
